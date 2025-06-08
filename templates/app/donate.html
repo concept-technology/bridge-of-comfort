@@ -1,0 +1,87 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center">
+            <h1 class="display-4 text-white animated slideInDown mb-4">Donate</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Donate</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Donate Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="d-inline-block rounded-pill bg-secondary text-primary py-1 px-3 mb-3">Donate Now</div>
+                    <h1 class="display-6 mb-5">Thanks For The Results Achieved With You</h1>
+                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="h-100 bg-secondary p-5">                    
+        <form method="post" novalidate class="row g-3">
+        {% csrf_token %}
+        
+        <!-- Donor Fields -->
+        {{ donor_form.non_field_errors }}
+        <div class="mb-3">{{ donor_form.phone.label_tag }}{{ donor_form.phone }}</div>
+        <div class="mb-3">{{ donor_form.occupation.label_tag }}{{ donor_form.occupation }}</div>
+        <div class="form-check mb-3">{{ donor_form.is_organisation }} {{ donor_form.is_organisation.label_tag }}</div>
+                                {% if donor_form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ donor_form.non_field_errors }}
+  </div>
+{% endif %}
+
+        <!-- Organization Toggle -->
+        <div class="mb-3" id="org-div" style="display: none;">
+            {{ donor_form.organisation.label_tag }}{{ donor_form.organisation }}
+        </div>
+
+        <!-- Amount and Approved -->
+        <div class="mb-3">{{ donor_form.amount.label_tag }}{{ donor_form.amount }}</div>
+
+        <!-- Address Selection or Creation -->
+        <div class="mb-3">
+            <label class="form-label">Are you a first-time donor?</label>
+            <select id="address_choice" class="form-select">
+                <option value="existing">Use Existing Contact</option>
+                <option value="new">Create New contact</option>
+            </select>
+        </div>
+
+        <!-- Existing Address Select -->
+        <div class="mb-3" id="existing-address">
+            {{ donor_form.address.label_tag }}{{ donor_form.address }}
+        </div>
+
+        <!-- New Address Fields -->
+        <div id="new-address" style="display: none;">
+            <h5>Contact Info</h5>
+            {% for field in address_form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}{{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
